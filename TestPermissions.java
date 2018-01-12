@@ -8,19 +8,17 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
-
 import java.util.concurrent.TimeUnit;
 
-
     public class TestPermissions {
-    WebDriver driver;
-    void login(String a, String b) {
-        driver.findElement(By.cssSelector("#Login")) .sendKeys(a);
+    private WebDriver driver;
+    private void login(String login, String pass) {
+        driver.findElement(By.cssSelector("#Login")) .sendKeys(login);
         driver.findElement(By.cssSelector(".btn")) .click();
-        driver.findElement(By.cssSelector("#Password")) .sendKeys(b);
+        driver.findElement(By.cssSelector("#Password")) .sendKeys(pass);
         driver.findElement(By.cssSelector(".btn")) .click();
     }
-    void logOut() {
+    private void logOut() {
         WebDriverWait wait = new WebDriverWait(driver, 10);
         wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("div.col-xs-3:nth-child(1) > a:nth-child(1) > img:nth-child(1)")));
         driver.findElement(By.cssSelector("div.col-xs-3:nth-child(1) > a:nth-child(1) > img:nth-child(1)")) .click();
@@ -30,7 +28,7 @@ import java.util.concurrent.TimeUnit;
         driver.findElement(By.cssSelector(".dropdown-menu > li:nth-child(3) > a:nth-child(1)")) .click();
         driver.findElement(By.cssSelector("div.media-body:nth-child(1)")) .click();
     }
-    void setPermissions(String UserName, String download, String audit) {
+    private void setPermissions(String UserName, String download, String audit) {
         WebDriverWait wait = new WebDriverWait(driver, 10);
         wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("#menuRolesController > a:nth-child(1)")));
         driver.findElement(By.cssSelector("#menuRolesController > a:nth-child(1)")) .click();
@@ -88,7 +86,7 @@ import java.util.concurrent.TimeUnit;
         wait.until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector("#loading-overlay")));
         driver.findElement(By.cssSelector("#menuFilesController > a")) .click();
     }
-    void shareVideoWithUser(String user, String video, String download, String audit) {
+    private void shareVideoWithUser(String user, String video, String download, String audit) {
         WebDriverWait wait = new WebDriverWait(driver, 10);
         wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector(".nav-stacked > li:nth-child(13) > a:nth-child(1)")));
         driver.findElement(By.cssSelector(".nav-stacked > li:nth-child(13) > a:nth-child(1)")) .click();
@@ -102,20 +100,14 @@ import java.util.concurrent.TimeUnit;
         wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("div.clearfix:nth-child(3) > a:nth-child(1)")));
         driver.findElement(By.cssSelector("div.clearfix:nth-child(3) > a:nth-child(1)")) .click();
         wait.until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector("#loading-overlay")));
-
-
-
-
-
         String shares = driver.findElement(By.cssSelector("div.results-container:nth-child(1) > div:nth-child(2) > div:nth-child(1) > div:nth-child(3) > span:nth-child(2)")).getAttribute("innerText");
-
-
-
-
-
-
-
-
+        int sharesint = Integer.parseInt(shares);
+        for (int i = 0; i < sharesint; i++) {
+            driver.findElement(By.cssSelector("#gridTemplateTable > tbody > tr:nth-child(1) > td:nth-child(7) > p > a")).click();
+            driver.findElement(By.cssSelector("#confirmation-button-yes")).click();
+            wait.until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector("#loading-overlay")));
+            driver.findElement(By.cssSelector("#message-button-ok")).click();
+        }
         wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("#sharedLinkModal > div.modal-dialog > div > div > div:nth-child(2) > div > div.col-xs-2 > a")));
         driver.findElement(By.cssSelector("#sharedLinkModal > div.modal-dialog > div > div > div:nth-child(2) > div > div.col-xs-2 > a")) .click();
         wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("#sharedLinkModal > div.modal-dialog > div > div > div:nth-child(2) > div > div.col-xs-2.open > ul > li:nth-child(1) > a")));
@@ -139,7 +131,7 @@ import java.util.concurrent.TimeUnit;
         wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("div.results-container:nth-child(1) > div:nth-child(1) > table:nth-child(1) > tbody:nth-child(2) > tr:nth-child(1) > td:nth-child(6) > p:nth-child(1) > a:nth-child(1)")));
         driver.findElement(By.cssSelector("#sharedLinkModal > div:nth-child(2) > div:nth-child(1) > div:nth-child(1) > button:nth-child(1)")) .click();
     }
-    void shareRedactedVideoWithUser(String user, String video, String download, String audit) {
+    private void shareRedactedVideoWithUser(String user, String video, String download, String audit) {
         WebDriverWait wait = new WebDriverWait(driver, 10);
         wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector(".nav-stacked > li:nth-child(13) > a:nth-child(1)")));
         driver.findElement(By.cssSelector(".nav-stacked > li:nth-child(13) > a:nth-child(1)")) .click();
@@ -156,6 +148,14 @@ import java.util.concurrent.TimeUnit;
         wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("#selected-redact-item > div.overflow-wrapper > div:nth-child(2) > div.col-xs-2 > div:nth-child(2) > a")));
         driver.findElement(By.cssSelector("#selected-redact-item > div.overflow-wrapper > div:nth-child(2) > div.col-xs-2 > div:nth-child(2) > a")).click();
         wait.until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector("#loading-overlay")));
+        String shares = driver.findElement(By.cssSelector("div.results-container:nth-child(1) > div:nth-child(2) > div:nth-child(1) > div:nth-child(3) > span:nth-child(2)")).getAttribute("innerText");
+        int sharesint = Integer.parseInt(shares);
+        for (int i = 0; i < sharesint; i++) {
+            driver.findElement(By.cssSelector("#gridTemplateTable > tbody > tr:nth-child(1) > td:nth-child(7) > p > a")).click();
+            driver.findElement(By.cssSelector("#confirmation-button-yes")).click();
+            wait.until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector("#loading-overlay")));
+            driver.findElement(By.cssSelector("#message-button-ok")).click();
+        }
         wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("#sharedLinkModal > div.modal-dialog > div > div > div:nth-child(2) > div > div.col-xs-2 > a")));
         wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[@id=\"sharedLinkModal\"]/div[2]/div/div/div[2]/div/div/div/div[2]/div[1]/div[3]/span[2]")));
         driver.findElement(By.cssSelector("#sharedLinkModal > div.modal-dialog > div > div > div:nth-child(2) > div > div.col-xs-2 > a")) .click();
@@ -180,7 +180,7 @@ import java.util.concurrent.TimeUnit;
         driver.findElement(By.cssSelector("#sharedLinkModal > div:nth-child(2) > div:nth-child(1) > div:nth-child(1) > button:nth-child(1)")) .click();
         driver.findElement(By.cssSelector("#redactVideoModal > div.modal-dialog > div > div > button > span:nth-child(1)")).click();
     }
-    void shareRedactedClipWithUser(String user, String video, String download, String audit) {
+    private void shareRedactedClipWithUser(String user, String video, String download, String audit) {
         WebDriverWait wait = new WebDriverWait(driver, 10);
         wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector(".nav-stacked > li:nth-child(13) > a:nth-child(1)")));
         driver.findElement(By.cssSelector(".nav-stacked > li:nth-child(13) > a:nth-child(1)")) .click();
@@ -197,6 +197,14 @@ import java.util.concurrent.TimeUnit;
         wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("#selected-redact-item > div.overflow-wrapper > div:nth-child(2) > div.col-xs-2 > div:nth-child(2) > a")));
         driver.findElement(By.cssSelector("#selected-redact-item > div.overflow-wrapper > div:nth-child(2) > div.col-xs-2 > div:nth-child(2) > a")).click();
         wait.until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector("#loading-overlay")));
+        String shares = driver.findElement(By.cssSelector("div.results-container:nth-child(1) > div:nth-child(2) > div:nth-child(1) > div:nth-child(3) > span:nth-child(2)")).getAttribute("innerText");
+        int sharesint = Integer.parseInt(shares);
+        for (int i = 0; i < sharesint; i++) {
+            driver.findElement(By.cssSelector("#gridTemplateTable > tbody > tr:nth-child(1) > td:nth-child(7) > p > a")).click();
+            driver.findElement(By.cssSelector("#confirmation-button-yes")).click();
+            wait.until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector("#loading-overlay")));
+            driver.findElement(By.cssSelector("#message-button-ok")).click();
+        }
         wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("#sharedLinkModal > div.modal-dialog > div > div > div:nth-child(2) > div > div.col-xs-2 > a")));
         wait.until(ExpectedConditions.presenceOfElementLocated(By.xpath("//*[@id=\"sharedLinkModal\"]/div[2]/div/div/div[2]/div/div/div/div[2]/div[1]/div[3]/span[2]")));
         driver.findElement(By.cssSelector("#sharedLinkModal > div.modal-dialog > div > div > div:nth-child(2) > div > div.col-xs-2 > a")) .click();
@@ -222,7 +230,7 @@ import java.util.concurrent.TimeUnit;
         driver.findElement(By.cssSelector("#sharedLinkModal > div:nth-child(2) > div:nth-child(1) > div:nth-child(1) > button:nth-child(1)")) .click();
         driver.findElement(By.cssSelector("#redactVideoModal > div.modal-dialog > div > div > button > span:nth-child(1)")).click();
     }
-    void shareFileWithUser(String user, String file, String download, String audit) {
+    private void shareFileWithUser(String user, String file, String download, String audit) {
         WebDriverWait wait = new WebDriverWait(driver, 10);
         wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector(".nav-stacked > li:nth-child(13) > a:nth-child(1)")));
         driver.findElement(By.cssSelector(".nav-stacked > li:nth-child(13) > a:nth-child(1)")) .click();
@@ -237,6 +245,14 @@ import java.util.concurrent.TimeUnit;
         wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("div.clearfix:nth-child(3) > a:nth-child(1)")));
         driver.findElement(By.cssSelector("#print > div.row.file-info > div.col-xs-1 > div:nth-child(2) > a")) .click();
         wait.until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector("#loading-overlay")));
+        String shares = driver.findElement(By.cssSelector("div.results-container:nth-child(1) > div:nth-child(2) > div:nth-child(1) > div:nth-child(3) > span:nth-child(2)")).getAttribute("innerText");
+        int sharesint = Integer.parseInt(shares);
+        for (int i = 0; i < sharesint; i++) {
+            driver.findElement(By.cssSelector("#gridTemplateTable > tbody > tr:nth-child(1) > td:nth-child(7) > p > a")).click();
+            driver.findElement(By.cssSelector("#confirmation-button-yes")).click();
+            wait.until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector("#loading-overlay")));
+            driver.findElement(By.cssSelector("#message-button-ok")).click();
+        }
         wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("#sharedLinkModal > div.modal-dialog > div > div > div:nth-child(2) > div > div.col-xs-2 > a")));
         driver.findElement(By.cssSelector("#sharedLinkModal > div.modal-dialog > div > div > div:nth-child(2) > div > div.col-xs-2 > a")) .click();
         wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("#sharedLinkModal > div.modal-dialog > div > div > div:nth-child(2) > div > div.col-xs-2.open > ul > li:nth-child(1) > a")));
@@ -260,7 +276,7 @@ import java.util.concurrent.TimeUnit;
         wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("div.results-container:nth-child(1) > div:nth-child(1) > table:nth-child(1) > tbody:nth-child(2) > tr:nth-child(1) > td:nth-child(6) > p:nth-child(1) > a:nth-child(1)")));
         driver.findElement(By.cssSelector("#sharedLinkModal > div:nth-child(2) > div:nth-child(1) > div:nth-child(1) > button:nth-child(1)")) .click();
     }
-    void checkShareVideoWithUser(String download, String audit){
+    private void checkShareVideoWithUser(String download, String audit){
         WebDriverWait wait = new WebDriverWait(driver, 10);
         wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("#videosContainer > div.side-bar-column > div > ul > li:nth-child(15) > a")));
         driver.findElement(By.cssSelector("#videosContainer > div.side-bar-column > div > ul > li:nth-child(15) > a")).click();
@@ -306,7 +322,7 @@ import java.util.concurrent.TimeUnit;
         driver.findElement(By.cssSelector("#message-button-ok")).click();
         driver.findElement(By.cssSelector("#sharedLinkModal > div.modal-dialog > div > div > button > span:nth-child(1)")) .click();
     }
-    void checkShareRedactedVideoWithUser(String download, String audit) {
+    private void checkShareRedactedVideoWithUser(String download, String audit) {
         WebDriverWait wait = new WebDriverWait(driver, 10);
         wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("#videosContainer > div.side-bar-column > div > ul > li:nth-child(15) > a")));
         driver.findElement(By.cssSelector("#videosContainer > div.side-bar-column > div > ul > li:nth-child(15) > a")).click();
@@ -352,7 +368,7 @@ import java.util.concurrent.TimeUnit;
         driver.findElement(By.cssSelector("#message-button-ok")).click();
         driver.findElement(By.cssSelector("#sharedLinkModal > div.modal-dialog > div > div > button > span:nth-child(1)")).click();
     }
-    void checkShareFileWithUser(String download, String audit){
+    private void checkShareFileWithUser(String download, String audit){
         WebDriverWait wait = new WebDriverWait(driver, 10);
         wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("#videosContainer > div.side-bar-column > div > ul > li:nth-child(15) > a")));
         driver.findElement(By.cssSelector("#videosContainer > div.side-bar-column > div > ul > li:nth-child(15) > a")).click();
@@ -399,7 +415,7 @@ import java.util.concurrent.TimeUnit;
         driver.findElement(By.cssSelector("#message-button-ok")).click();
         driver.findElement(By.cssSelector("#sharedLinkModal > div.modal-dialog > div > div > button > span:nth-child(1)")) .click();
     }
-    void checkShareRedactedClipWithUser(String download, String audit){
+    private void checkShareRedactedClipWithUser(String download, String audit){
         WebDriverWait wait = new WebDriverWait(driver, 10);
         wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("#videosContainer > div.side-bar-column > div > ul > li:nth-child(15) > a")));
         driver.findElement(By.cssSelector("#videosContainer > div.side-bar-column > div > ul > li:nth-child(15) > a")).click();
@@ -452,101 +468,101 @@ import java.util.concurrent.TimeUnit;
         System.setProperty("webdriver.chrome.driver", "C:\\chromedriver.exe");
         driver = new ChromeDriver();
         driver.manage().timeouts().implicitlyWait(10, TimeUnit.SECONDS);
-        driver.get("https://securitytest.vievusolution.com");
+        driver.get(Data.subscription);
         driver.manage().window().maximize();
     }
 
    // @Test
     //public void test() {
-        //login("Adam1", "vievu123");
-        //setPermissions("Adam2", "Y", "N");
+        //login("Adam1", Data.pass2);
+        //setPermissions(Data.user2, "Y", "N");
     //}
 
     //======================================================================================================================================================================
     @Test
     public void userNNsharedVideoNN() {
-        login("Adam1", "vievu123");
-        setPermissions("Adam2", "N", "N");
-        shareVideoWithUser("Adam2", "autotestvideo1.AVI", "N", "N");
+        login(Data.user1, Data.pass1);
+        setPermissions(Data.user2,"N", "N");
+        shareVideoWithUser(Data.user2, Data.video1, "N", "N");
         logOut();
-        login("Adam2", "vievu123");
+        login(Data.user2, Data.pass2);
         checkShareVideoWithUser("N", "N");
         logOut();
     }
 
     @Test
     public void userNNsharedVideoYN() {
-        login("Adam1", "vievu123");
-        setPermissions("Adam2", "N", "N");
-        shareVideoWithUser("Adam2", "autotestvideo1.AVI", "Y", "N");
+        login(Data.user1, Data.pass1);
+        setPermissions(Data.user2, "N", "N");
+        shareVideoWithUser(Data.user2, Data.video1, "Y", "N");
         logOut();
-        login("Adam2", "vievu123");
+        login(Data.user2, Data.pass2);
         checkShareVideoWithUser("Y", "N");
         logOut();
     }
 
     @Test
     public void userNNsharedVideoNY() {
-        login("Adam1", "vievu123");
-        setPermissions("Adam2", "N", "N");
-        shareVideoWithUser("Adam2", "autotestvideo1.AVI", "N", "Y");
+        login(Data.user1, Data.pass1);
+        setPermissions(Data.user2, "N", "N");
+        shareVideoWithUser(Data.user2, Data.video1, "N", "Y");
         logOut();
-        login("Adam2", "vievu123");
+        login(Data.user2, Data.pass2);
         checkShareVideoWithUser("N", "Y");
         logOut();
     }
 
     @Test
     public void userNNsharedVideoYY() {
-        login("Adam1", "vievu123");
-        setPermissions("Adam2", "N", "N");
-        shareVideoWithUser("Adam2", "autotestvideo1.AVI", "Y", "Y");
+        login(Data.user1, Data.pass1);
+        setPermissions(Data.user2, "N", "N");
+        shareVideoWithUser(Data.user2, Data.video1, "Y", "Y");
         logOut();
-        login("Adam2", "vievu123");
+        login(Data.user2, Data.pass2);
         checkShareVideoWithUser("Y", "Y");
         logOut();
     }
     //======================================================================================================================================================================
     @Test
     public void userYYsharedVideoNN() {
-        login("Adam1", "vievu123");
-        setPermissions("Adam2", "Y", "Y");
-        shareVideoWithUser("Adam2", "autotestvideo1.AVI", "N", "N");
+        login(Data.user1, Data.pass1);
+        setPermissions(Data.user2, "Y", "Y");
+        shareVideoWithUser(Data.user2, Data.video1, "N", "N");
         logOut();
-        login("Adam2", "vievu123");
+        login(Data.user2, Data.pass2);
         checkShareVideoWithUser("Y", "Y");
         logOut();
     }
 
     @Test
     public void userYYsharedVideoYN() {
-        login("Adam1", "vievu123");
-        setPermissions("Adam2", "Y", "Y");
-        shareVideoWithUser("Adam2", "autotestvideo1.AVI", "Y", "N");
+        login(Data.user1, Data.pass1);
+        setPermissions(Data.user2, "Y", "Y");
+        shareVideoWithUser(Data.user2, Data.video1, "Y", "N");
         logOut();
-        login("Adam2", "vievu123");
+        login(Data.user2, Data.pass2);
         checkShareVideoWithUser("Y", "Y");
         logOut();
     }
 
     @Test
     public void userYYsharedVideoNY() {
-        login("Adam1", "vievu123");
-        setPermissions("Adam2", "Y", "Y");
-        shareVideoWithUser("Adam2", "autotestvideo1.AVI", "N", "Y");
+        login(Data.user1, Data.pass1);
+        setPermissions(Data.user2, "Y", "Y");
+        shareVideoWithUser(Data.user2, Data.video1, "N", "Y");
         logOut();
-        login("Adam2", "vievu123");
+        login(Data.user2, Data.pass2);
         checkShareVideoWithUser("Y", "Y");
         logOut();
     }
 
     @Test
     public void userYYsharedVideoYY() {
-        login("Adam1", "vievu123");
-        setPermissions("Adam2", "Y", "Y");
-        shareVideoWithUser("Adam2", "autotestvideo1.AVI", "Y", "Y");
+        login(Data.user1, Data.pass1);
+        setPermissions(Data.user2, "Y", "Y");
+        shareVideoWithUser(Data.user2, Data.video1, "Y", "Y");
         logOut();
-        login("Adam2", "vievu123");
+        login(Data.user2, Data.pass2);
         checkShareVideoWithUser("Y", "Y");
         logOut();
     }
@@ -554,44 +570,44 @@ import java.util.concurrent.TimeUnit;
     //======================================================================================================================================================================
     @Test
     public void groupNNsharedVideoNN() {
-        login("Adam1", "vievu123");
-        setPermissions("Adam2", "N", "N");
-        shareVideoWithUser("Adam2g", "autotestvideo2.AVI", "N", "N");
+        login(Data.user1, Data.pass1);
+        setPermissions(Data.user2, "N", "N");
+        shareVideoWithUser(Data.group2, Data.video2, "N", "N");
         logOut();
-        login("Adam2", "vievu123");
+        login(Data.user2, Data.pass2);
         checkShareVideoWithUser("N", "N");
         logOut();
     }
 
     @Test
     public void groupNNsharedVideoYN() {
-        login("Adam1", "vievu123");
-        setPermissions("Adam2", "N", "N");
-        shareVideoWithUser("Adam2g", "autotestvideo2.AVI", "Y", "N");
+        login(Data.user1, Data.pass1);
+        setPermissions(Data.user2, "N", "N");
+        shareVideoWithUser(Data.group2, Data.video2, "Y", "N");
         logOut();
-        login("Adam2", "vievu123");
+        login(Data.user2, Data.pass2);
         checkShareVideoWithUser("Y", "N");
         logOut();
     }
 
     @Test
     public void groupNNsharedVideoNY() {
-        login("Adam1", "vievu123");
-        setPermissions("Adam2", "N", "N");
-        shareVideoWithUser("Adam2g", "autotestvideo2.AVI", "N", "Y");
+        login(Data.user1, Data.pass1);
+        setPermissions(Data.user2, "N", "N");
+        shareVideoWithUser(Data.group2, Data.video2, "N", "Y");
         logOut();
-        login("Adam2", "vievu123");
+        login(Data.user2, Data.pass2);
         checkShareVideoWithUser("N", "Y");
         logOut();
     }
 
     @Test
     public void groupNNsharedVideoYY() {
-        login("Adam1", "vievu123");
-        setPermissions("Adam2", "N", "N");
-        shareVideoWithUser("Adam2g", "autotestvideo2.AVI", "Y", "Y");
+        login(Data.user1, Data.pass1);
+        setPermissions(Data.user2, "N", "N");
+        shareVideoWithUser(Data.group2, Data.video2, "Y", "Y");
         logOut();
-        login("Adam2", "vievu123");
+        login(Data.user2, Data.pass2);
         checkShareVideoWithUser("Y", "Y");
         logOut();
     }
@@ -599,44 +615,44 @@ import java.util.concurrent.TimeUnit;
     //======================================================================================================================================================================
     @Test
     public void groupYYsharedVideoNN() {
-        login("Adam1", "vievu123");
-        setPermissions("Adam2", "Y", "Y");
-        shareVideoWithUser("Adam2g", "autotestvideo2.AVI", "N", "N");
+        login(Data.user1, Data.pass1);
+        setPermissions(Data.user2, "Y", "Y");
+        shareVideoWithUser(Data.group2, Data.video2, "N", "N");
         logOut();
-        login("Adam2", "vievu123");
+        login(Data.user2, Data.pass2);
         checkShareVideoWithUser("Y", "Y");
         logOut();
     }
 
     @Test
     public void groupYYsharedVideoYN() {
-        login("Adam1", "vievu123");
-        setPermissions("Adam2", "Y", "Y");
-        shareVideoWithUser("Adam2g", "autotestvideo2.AVI", "Y", "N");
+        login(Data.user1, Data.pass1);
+        setPermissions(Data.user2, "Y", "Y");
+        shareVideoWithUser(Data.group2, Data.video2, "Y", "N");
         logOut();
-        login("Adam2", "vievu123");
+        login(Data.user2, Data.pass2);
         checkShareVideoWithUser("Y", "Y");
         logOut();
     }
 
     @Test
     public void groupYYsharedVideoNY() {
-        login("Adam1", "vievu123");
-        setPermissions("Adam2", "Y", "Y");
-        shareVideoWithUser("Adam2g", "autotestvideo2.AVI", "N", "Y");
+        login(Data.user1, Data.pass1);
+        setPermissions(Data.user2, "Y", "Y");
+        shareVideoWithUser(Data.group2, Data.video2, "N", "Y");
         logOut();
-        login("Adam2", "vievu123");
+        login(Data.user2, Data.pass2);
         checkShareVideoWithUser("Y", "Y");
         logOut();
     }
 
     @Test
     public void groupYYsharedVideoYY() {
-        login("Adam1", "vievu123");
-        setPermissions("Adam2", "Y", "Y");
-        shareVideoWithUser("Adam2g", "autotestvideo2.AVI", "Y", "Y");
+        login(Data.user1, Data.pass1);
+        setPermissions(Data.user2, "Y", "Y");
+        shareVideoWithUser(Data.group2, Data.video2, "Y", "Y");
         logOut();
-        login("Adam2", "vievu123");
+        login(Data.user2, Data.pass2);
         checkShareVideoWithUser("Y", "Y");
         logOut();
     }
@@ -645,88 +661,88 @@ import java.util.concurrent.TimeUnit;
     //======================================================================================================================================================================
     @Test
     public void userNNsharedRedactedVideoNN() {
-        login("Adam1", "vievu123");
-        setPermissions("Adam3", "N", "N");
-        shareRedactedVideoWithUser("Adam3", "autotestvideo1.AVI", "N", "N");
+        login(Data.user1, Data.pass1);
+        setPermissions(Data.user2, "N", "N");
+        shareRedactedVideoWithUser(Data.user2, Data.video1, "N", "N");
         logOut();
-        login("Adam3", "vievu123");
+        login(Data.user2, Data.pass2);
         checkShareRedactedVideoWithUser("N", "N");
         logOut();
     }
 
     @Test
     public void userNNsharedRedactedVideoYN() {
-        login("Adam1", "vievu123");
-        setPermissions("Adam3", "N", "N");
-        shareRedactedVideoWithUser("Adam3", "autotestvideo1.AVI", "Y", "N");
+        login(Data.user1, Data.pass1);
+        setPermissions(Data.user2, "N", "N");
+        shareRedactedVideoWithUser(Data.user2, Data.video1, "Y", "N");
         logOut();
-        login("Adam3", "vievu123");
+        login(Data.user2, Data.pass2);
         checkShareRedactedVideoWithUser("Y", "N");
         logOut();
     }
 
     @Test
     public void userNNsharedRedactedVideoNY() {
-        login("Adam1", "vievu123");
-        setPermissions("Adam3", "N", "N");
-        shareRedactedVideoWithUser("Adam3", "autotestvideo1.AVI", "N", "Y");
+        login(Data.user1, Data.pass1);
+        setPermissions(Data.user2, "N", "N");
+        shareRedactedVideoWithUser(Data.user2, Data.video1, "N", "Y");
         logOut();
-        login("Adam3", "vievu123");
+        login(Data.user2, Data.pass2);
         checkShareRedactedVideoWithUser("N", "Y");
         logOut();
     }
 
     @Test
     public void userNNsharedRedactedVideoYY() {
-        login("Adam1", "vievu123");
-        setPermissions("Adam3", "N", "N");
-        shareRedactedVideoWithUser("Adam3", "autotestvideo1.AVI", "Y", "Y");
+        login(Data.user1, Data.pass1);
+        setPermissions(Data.user2, "N", "N");
+        shareRedactedVideoWithUser(Data.user2, Data.video1, "Y", "Y");
         logOut();
-        login("Adam3", "vievu123");
+        login(Data.user2, Data.pass2);
         checkShareRedactedVideoWithUser("Y", "Y");
         logOut();
     }
     //======================================================================================================================================================================
     @Test
     public void userYYsharedRedactedVideoNN() {
-        login("Adam1", "vievu123");
-        setPermissions("Adam3", "Y", "Y");
-        shareRedactedVideoWithUser("Adam3", "autotestvideo1.AVI", "N", "N");
+        login(Data.user1, Data.pass1);
+        setPermissions(Data.user2, "Y", "Y");
+        shareRedactedVideoWithUser(Data.user2, Data.video1, "N", "N");
         logOut();
-        login("Adam3", "vievu123");
+        login(Data.user2, Data.pass2);
         checkShareRedactedVideoWithUser("Y", "Y");
         logOut();
     }
 
     @Test
     public void userYYsharedRedactedVideoYN() {
-        login("Adam1", "vievu123");
-        setPermissions("Adam3", "Y", "Y");
-        shareRedactedVideoWithUser("Adam3", "autotestvideo1.AVI", "Y", "N");
+        login(Data.user1, Data.pass1);
+        setPermissions(Data.user2, "Y", "Y");
+        shareRedactedVideoWithUser(Data.user2, Data.video1, "Y", "N");
         logOut();
-        login("Adam3", "vievu123");
+        login(Data.user2, Data.pass2);
         checkShareRedactedVideoWithUser("Y", "Y");
         logOut();
     }
 
     @Test
     public void userYYsharedRedactedVideoNY() {
-        login("Adam1", "vievu123");
-        setPermissions("Adam3", "Y", "Y");
-        shareRedactedVideoWithUser("Adam3", "autotestvideo1.AVI", "N", "Y");
+        login(Data.user1, Data.pass1);
+        setPermissions(Data.user2, "Y", "Y");
+        shareRedactedVideoWithUser(Data.user2, Data.video1, "N", "Y");
         logOut();
-        login("Adam3", "vievu123");
+        login(Data.user2, Data.pass2);
         checkShareRedactedVideoWithUser("Y", "Y");
         logOut();
     }
 
     @Test
     public void userYYsharedRedactedVideoYY() {
-        login("Adam1", "vievu123");
-        setPermissions("Adam3", "Y", "Y");
-        shareRedactedVideoWithUser("Adam3", "autotestvideo1.AVI", "Y", "Y");
+        login(Data.user1, Data.pass1);
+        setPermissions(Data.user2, "Y", "Y");
+        shareRedactedVideoWithUser(Data.user2, Data.video1, "Y", "Y");
         logOut();
-        login("Adam3", "vievu123");
+        login(Data.user2, Data.pass2);
         checkShareRedactedVideoWithUser("Y", "Y");
         logOut();
     }
@@ -734,44 +750,44 @@ import java.util.concurrent.TimeUnit;
     //======================================================================================================================================================================
     @Test
     public void groupNNsharedRedactedVideoNN() {
-        login("Adam1", "vievu123");
-        setPermissions("Adam3", "N", "N");
-        shareRedactedVideoWithUser("Adam3g", "autotestvideo2.AVI", "N", "N");
+        login(Data.user1, Data.pass1);
+        setPermissions(Data.user2, "N", "N");
+        shareRedactedVideoWithUser(Data.group2, Data.video2, "N", "N");
         logOut();
-        login("Adam3", "vievu123");
+        login(Data.user2, Data.pass2);
         checkShareRedactedVideoWithUser("N", "N");
         logOut();
     }
 
     @Test
     public void groupNNsharedRedactedVideoYN() {
-        login("Adam1", "vievu123");
-        setPermissions("Adam3", "N", "N");
-        shareRedactedVideoWithUser("Adam3g", "autotestvideo2.AVI", "Y", "N");
+        login(Data.user1, Data.pass1);
+        setPermissions(Data.user2, "N", "N");
+        shareRedactedVideoWithUser(Data.group2, Data.video2, "Y", "N");
         logOut();
-        login("Adam3", "vievu123");
+        login(Data.user2, Data.pass2);
         checkShareRedactedVideoWithUser("Y", "N");
         logOut();
     }
 
     @Test
     public void groupNNsharedRedactedVideoNY() {
-        login("Adam1", "vievu123");
-        setPermissions("Adam3", "N", "N");
-        shareRedactedVideoWithUser("Adam3g", "autotestvideo2.AVI", "N", "Y");
+        login(Data.user1, Data.pass1);
+        setPermissions(Data.user2, "N", "N");
+        shareRedactedVideoWithUser(Data.group2, Data.video2, "N", "Y");
         logOut();
-        login("Adam3", "vievu123");
+        login(Data.user2, Data.pass2);
         checkShareRedactedVideoWithUser("N", "Y");
         logOut();
     }
 
     @Test
     public void groupNNsharedRedactedVideoYY() {
-        login("Adam1", "vievu123");
-        setPermissions("Adam3", "N", "N");
-        shareRedactedVideoWithUser("Adam3g", "autotestvideo2.AVI", "Y", "Y");
+        login(Data.user1, Data.pass1);
+        setPermissions(Data.user2, "N", "N");
+        shareRedactedVideoWithUser(Data.group2, Data.video2, "Y", "Y");
         logOut();
-        login("Adam3", "vievu123");
+        login(Data.user2, Data.pass2);
         checkShareRedactedVideoWithUser("Y", "Y");
         logOut();
     }
@@ -779,44 +795,44 @@ import java.util.concurrent.TimeUnit;
     //======================================================================================================================================================================
     @Test
     public void groupYYsharedRedactedVideoNN() {
-        login("Adam1", "vievu123");
-        setPermissions("Adam3", "Y", "Y");
-        shareRedactedVideoWithUser("Adam3g", "autotestvideo2.AVI", "N", "N");
+        login(Data.user1, Data.pass1);
+        setPermissions(Data.user2, "Y", "Y");
+        shareRedactedVideoWithUser(Data.group2, Data.video2, "N", "N");
         logOut();
-        login("Adam3", "vievu123");
+        login(Data.user2, Data.pass2);
         checkShareRedactedVideoWithUser("Y", "Y");
         logOut();
     }
 
     @Test
     public void groupYYsharedRedactedVideoYN() {
-        login("Adam1", "vievu123");
-        setPermissions("Adam3", "Y", "Y");
-        shareRedactedVideoWithUser("Adam3g", "autotestvideo2.AVI", "Y", "N");
+        login(Data.user1, Data.pass1);
+        setPermissions(Data.user2, "Y", "Y");
+        shareRedactedVideoWithUser(Data.group2, Data.video2, "Y", "N");
         logOut();
-        login("Adam3", "vievu123");
+        login(Data.user2, Data.pass2);
         checkShareRedactedVideoWithUser("Y", "Y");
         logOut();
     }
 
     @Test
     public void groupYYsharedRedactedVideoNY() {
-        login("Adam1", "vievu123");
-        setPermissions("Adam3", "Y", "Y");
-        shareRedactedVideoWithUser("Adam3g", "autotestvideo2.AVI", "N", "Y");
+        login(Data.user1, Data.pass1);
+        setPermissions(Data.user2, "Y", "Y");
+        shareRedactedVideoWithUser(Data.group2, Data.video2, "N", "Y");
         logOut();
-        login("Adam3", "vievu123");
+        login(Data.user2, Data.pass2);
         checkShareRedactedVideoWithUser("Y", "Y");
         logOut();
     }
 
     @Test
     public void groupYYsharedRedactedVideoYY() {
-        login("Adam1", "vievu123");
-        setPermissions("Adam3", "Y", "Y");
-        shareRedactedVideoWithUser("Adam3g", "autotestvideo2.AVI", "Y", "Y");
+        login(Data.user1, Data.pass1);
+        setPermissions(Data.user2, "Y", "Y");
+        shareRedactedVideoWithUser(Data.group2, Data.video2, "Y", "Y");
         logOut();
-        login("Adam3", "vievu123");
+        login(Data.user2, Data.pass2);
         checkShareRedactedVideoWithUser("Y", "Y");
         logOut();
     }
@@ -825,88 +841,88 @@ import java.util.concurrent.TimeUnit;
     //======================================================================================================================================================================
     @Test
     public void userNNsharedFileNN() {
-        login("Adam1", "vievu123");
-        setPermissions("Adam4", "N", "N");
-        shareFileWithUser("Adam4", "autotestfile1.TXT", "N", "N");
+        login(Data.user1, Data.pass1);
+        setPermissions(Data.user2, "N", "N");
+        shareFileWithUser(Data.user2, Data.file1, "N", "N");
         logOut();
-        login("Adam4", "vievu123");
+        login(Data.user2, Data.pass2);
         checkShareFileWithUser("N", "N");
         logOut();
     }
 
     @Test
     public void userNNsharedFileYN() {
-        login("Adam1", "vievu123");
-        setPermissions("Adam4", "N", "N");
-        shareFileWithUser("Adam4", "autotestfile1.TXT", "Y", "N");
+        login(Data.user1, Data.pass1);
+        setPermissions(Data.user2, "N", "N");
+        shareFileWithUser(Data.user2, Data.file1, "Y", "N");
         logOut();
-        login("Adam4", "vievu123");
+        login(Data.user2, Data.pass2);
         checkShareFileWithUser("Y", "N");
         logOut();
     }
 
     @Test
     public void userNNsharedFileNY() {
-        login("Adam1", "vievu123");
-        setPermissions("Adam4", "N", "N");
-        shareFileWithUser("Adam4", "autotestfile1.TXT", "N", "Y");
+        login(Data.user1, Data.pass1);
+        setPermissions(Data.user2, "N", "N");
+        shareFileWithUser(Data.user2, Data.file1, "N", "Y");
         logOut();
-        login("Adam4", "vievu123");
+        login(Data.user2, Data.pass2);
         checkShareFileWithUser("N", "Y");
         logOut();
     }
 
     @Test
     public void userNNsharedFileYY() {
-        login("Adam1", "vievu123");
-        setPermissions("Adam4", "N", "N");
-        shareFileWithUser("Adam4", "autotestfile1.TXT", "Y", "Y");
+        login(Data.user1, Data.pass1);
+        setPermissions(Data.user2, "N", "N");
+        shareFileWithUser(Data.user2, Data.file1, "Y", "Y");
         logOut();
-        login("Adam4", "vievu123");
+        login(Data.user2, Data.pass2);
         checkShareFileWithUser("Y", "Y");
         logOut();
     }
     //======================================================================================================================================================================
     @Test
     public void userYYsharedFileNN() {
-        login("Adam1", "vievu123");
-        setPermissions("Adam4", "Y", "Y");
-        shareFileWithUser("Adam4", "autotestfile1.TXT", "N", "N");
+        login(Data.user1, Data.pass1);
+        setPermissions(Data.user2, "Y", "Y");
+        shareFileWithUser(Data.user2, Data.file1, "N", "N");
         logOut();
-        login("Adam4", "vievu123");
+        login(Data.user2, Data.pass2);
         checkShareFileWithUser("Y", "Y");
         logOut();
     }
 
     @Test
     public void userYYsharedFileYN() {
-        login("Adam1", "vievu123");
-        setPermissions("Adam4", "Y", "Y");
-        shareFileWithUser("Adam4", "autotestfile1.TXT", "Y", "N");
+        login(Data.user1, Data.pass1);
+        setPermissions(Data.user2, "Y", "Y");
+        shareFileWithUser(Data.user2, Data.file1, "Y", "N");
         logOut();
-        login("Adam4", "vievu123");
+        login(Data.user2, Data.pass2);
         checkShareFileWithUser("Y", "Y");
         logOut();
     }
 
     @Test
     public void userYYsharedFileNY() {
-        login("Adam1", "vievu123");
-        setPermissions("Adam4", "Y", "Y");
-        shareFileWithUser("Adam4", "autotestfile1.TXT", "N", "Y");
+        login(Data.user1, Data.pass1);
+        setPermissions(Data.user2, "Y", "Y");
+        shareFileWithUser(Data.user2, Data.file1, "N", "Y");
         logOut();
-        login("Adam4", "vievu123");
+        login(Data.user2, Data.pass2);
         checkShareFileWithUser("Y", "Y");
         logOut();
     }
 
     @Test
     public void userYYsharedFileYY() {
-        login("Adam1", "vievu123");
-        setPermissions("Adam4", "Y", "Y");
-        shareFileWithUser("Adam4", "autotestfile1.TXT", "Y", "Y");
+        login(Data.user1, Data.pass1);
+        setPermissions(Data.user2, "Y", "Y");
+        shareFileWithUser(Data.user2, Data.file1, "Y", "Y");
         logOut();
-        login("Adam4", "vievu123");
+        login(Data.user2, Data.pass2);
         checkShareFileWithUser("Y", "Y");
         logOut();
     }
@@ -914,44 +930,44 @@ import java.util.concurrent.TimeUnit;
     //======================================================================================================================================================================
     @Test
     public void groupNNsharedFileNN() {
-        login("Adam1", "vievu123");
-        setPermissions("Adam4", "N", "N");
-        shareFileWithUser("Adam4g", "autotestfile2.TXT", "N", "N");
+        login(Data.user1, Data.pass1);
+        setPermissions(Data.user2, "N", "N");
+        shareFileWithUser(Data.group2, Data.file2, "N", "N");
         logOut();
-        login("Adam4", "vievu123");
+        login(Data.user2, Data.pass2);
         checkShareFileWithUser("N", "N");
         logOut();
     }
 
     @Test
     public void groupNNsharedFileYN() {
-        login("Adam1", "vievu123");
-        setPermissions("Adam4", "N", "N");
-        shareFileWithUser("Adam4g", "autotestfile2.TXT", "Y", "N");
+        login(Data.user1, Data.pass1);
+        setPermissions(Data.user2, "N", "N");
+        shareFileWithUser(Data.group2, Data.file2, "Y", "N");
         logOut();
-        login("Adam4", "vievu123");
+        login(Data.user2, Data.pass2);
         checkShareFileWithUser("Y", "N");
         logOut();
     }
 
     @Test
     public void groupNNsharedFileNY() {
-        login("Adam1", "vievu123");
-        setPermissions("Adam4", "N", "N");
-        shareFileWithUser("Adam4g", "autotestfile2.TXT", "N", "Y");
+        login(Data.user1, Data.pass1);
+        setPermissions(Data.user2, "N", "N");
+        shareFileWithUser(Data.group2, Data.file2, "N", "Y");
         logOut();
-        login("Adam4", "vievu123");
+        login(Data.user2, Data.pass2);
         checkShareFileWithUser("N", "Y");
         logOut();
     }
 
     @Test
     public void groupNNsharedFileYY() {
-        login("Adam1", "vievu123");
-        setPermissions("Adam4", "N", "N");
-        shareFileWithUser("Adam4g", "autotestfile2.TXT", "Y", "Y");
+        login(Data.user1, Data.pass1);
+        setPermissions(Data.user2, "N", "N");
+        shareFileWithUser(Data.group2, Data.file2, "Y", "Y");
         logOut();
-        login("Adam4", "vievu123");
+        login(Data.user2, Data.pass2);
         checkShareFileWithUser("Y", "Y");
         logOut();
     }
@@ -959,44 +975,44 @@ import java.util.concurrent.TimeUnit;
     //======================================================================================================================================================================
     @Test
     public void groupYYsharedFileNN() {
-        login("Adam1", "vievu123");
-        setPermissions("Adam4", "Y", "Y");
-        shareFileWithUser("Adam4g", "autotestfile2.TXT", "N", "N");
+        login(Data.user1, Data.pass1);
+        setPermissions(Data.user2, "Y", "Y");
+        shareFileWithUser(Data.group2, Data.file2, "N", "N");
         logOut();
-        login("Adam4", "vievu123");
+        login(Data.user2, Data.pass2);
         checkShareFileWithUser("Y", "Y");
         logOut();
     }
 
     @Test
     public void groupYYsharedFileYN() {
-        login("Adam1", "vievu123");
-        setPermissions("Adam4", "Y", "Y");
-        shareFileWithUser("Adam4g", "autotestfile2.TXT", "Y", "N");
+        login(Data.user1, Data.pass1);
+        setPermissions(Data.user2, "Y", "Y");
+        shareFileWithUser(Data.group2, Data.file2, "Y", "N");
         logOut();
-        login("Adam4", "vievu123");
+        login(Data.user2, Data.pass2);
         checkShareFileWithUser("Y", "Y");
         logOut();
     }
 
     @Test
     public void groupYYsharedFileNY() {
-        login("Adam1", "vievu123");
-        setPermissions("Adam4", "Y", "Y");
-        shareFileWithUser("Adam4g", "autotestfile2.TXT", "N", "Y");
+        login(Data.user1, Data.pass1);
+        setPermissions(Data.user2, "Y", "Y");
+        shareFileWithUser(Data.group2, Data.file2, "N", "Y");
         logOut();
-        login("Adam4", "vievu123");
+        login(Data.user2, Data.pass2);
         checkShareFileWithUser("Y", "Y");
         logOut();
     }
 
     @Test
     public void groupYYsharedFileYY() {
-        login("Adam1", "vievu123");
-        setPermissions("Adam4", "Y", "Y");
-        shareFileWithUser("Adam4g", "autotestfile2.TXT", "Y", "Y");
+        login(Data.user1, Data.pass1);
+        setPermissions(Data.user2, "Y", "Y");
+        shareFileWithUser(Data.group2, Data.file2, "Y", "Y");
         logOut();
-        login("Adam4", "vievu123");
+        login(Data.user2, Data.pass2);
         checkShareFileWithUser("Y", "Y");
         logOut();
     }
@@ -1005,88 +1021,88 @@ import java.util.concurrent.TimeUnit;
     //======================================================================================================================================================================
     @Test
     public void userNNsharedClipNN() {
-        login("Adam1", "vievu123");
-        setPermissions("Adam5", "N", "N");
-        shareVideoWithUser("Adam5", "autotestvideo1_CLIP-001.mp4", "N", "N");
+        login(Data.user1, Data.pass1);
+        setPermissions(Data.user2, "N", "N");
+        shareVideoWithUser(Data.user2, Data.clip1, "N", "N");
         logOut();
-        login("Adam5", "vievu123");
+        login(Data.user2, Data.pass2);
         checkShareVideoWithUser("N", "N");
         logOut();
     }
 
     @Test
     public void userNNsharedClipYN() {
-        login("Adam1", "vievu123");
-        setPermissions("Adam5", "N", "N");
-        shareVideoWithUser("Adam5", "autotestvideo1_CLIP-001.mp4", "Y", "N");
+        login(Data.user1, Data.pass1);
+        setPermissions(Data.user2, "N", "N");
+        shareVideoWithUser(Data.user2, Data.clip1, "Y", "N");
         logOut();
-        login("Adam5", "vievu123");
+        login(Data.user2, Data.pass2);
         checkShareVideoWithUser("Y", "N");
         logOut();
     }
 
     @Test
     public void userNNsharedClipNY() {
-        login("Adam1", "vievu123");
-        setPermissions("Adam5", "N", "N");
-        shareVideoWithUser("Adam5", "autotestvideo1_CLIP-001.mp4", "N", "Y");
+        login(Data.user1, Data.pass1);
+        setPermissions(Data.user2, "N", "N");
+        shareVideoWithUser(Data.user2, Data.clip1, "N", "Y");
         logOut();
-        login("Adam5", "vievu123");
+        login(Data.user2, Data.pass2);
         checkShareVideoWithUser("N", "Y");
         logOut();
     }
 
     @Test
     public void userNNsharedClipYY() {
-        login("Adam1", "vievu123");
-        setPermissions("Adam5", "N", "N");
-        shareVideoWithUser("Adam5", "autotestvideo1_CLIP-001.mp4", "Y", "Y");
+        login(Data.user1, Data.pass1);
+        setPermissions(Data.user2, "N", "N");
+        shareVideoWithUser(Data.user2, Data.clip1, "Y", "Y");
         logOut();
-        login("Adam5", "vievu123");
+        login(Data.user2, Data.pass2);
         checkShareVideoWithUser("Y", "Y");
         logOut();
     }
     //======================================================================================================================================================================
     @Test
     public void userYYsharedClipNN() {
-        login("Adam1", "vievu123");
-        setPermissions("Adam5", "Y", "Y");
-        shareVideoWithUser("Adam5", "autotestvideo1_CLIP-001.mp4", "N", "N");
+        login(Data.user1, Data.pass1);
+        setPermissions(Data.user2, "Y", "Y");
+        shareVideoWithUser(Data.user2, Data.clip1, "N", "N");
         logOut();
-        login("Adam5", "vievu123");
+        login(Data.user2, Data.pass2);
         checkShareVideoWithUser("Y", "Y");
         logOut();
     }
 
     @Test
     public void userYYsharedClipYN() {
-        login("Adam1", "vievu123");
-        setPermissions("Adam5", "Y", "Y");
-        shareVideoWithUser("Adam5", "autotestvideo1_CLIP-001.mp4", "Y", "N");
+        login(Data.user1, Data.pass1);
+        setPermissions(Data.user2, "Y", "Y");
+        shareVideoWithUser(Data.user2, Data.clip1, "Y", "N");
         logOut();
-        login("Adam5", "vievu123");
+        login(Data.user2, Data.pass2);
         checkShareVideoWithUser("Y", "Y");
         logOut();
     }
 
     @Test
     public void userYYsharedClipNY() {
-        login("Adam1", "vievu123");
-        setPermissions("Adam5", "Y", "Y");
-        shareVideoWithUser("Adam5", "autotestvideo1_CLIP-001.mp4", "N", "Y");
+        login(Data.user1, Data.pass1);
+        setPermissions(Data.user2, "Y", "Y");
+        shareVideoWithUser(Data.user2, Data.clip1, "N", "Y");
         logOut();
-        login("Adam5", "vievu123");
+        login(Data.user2, Data.pass2);
         checkShareVideoWithUser("Y", "Y");
         logOut();
     }
 
     @Test
     public void userYYsharedClipYY() {
-        login("Adam1", "vievu123");
-        setPermissions("Adam5", "Y", "Y");
-        shareVideoWithUser("Adam5", "autotestvideo1_CLIP-001.mp4", "Y", "Y");
+        login(Data.user1, Data.pass1);
+        setPermissions(Data.user2, "Y", "Y");
+        shareVideoWithUser(Data.user2, Data.clip1, "Y", "Y");
         logOut();
-        login("Adam5", "vievu123");
+        login(Data.user2, Data.pass2);
         checkShareVideoWithUser("Y", "Y");
         logOut();
     }
@@ -1094,44 +1110,44 @@ import java.util.concurrent.TimeUnit;
     //======================================================================================================================================================================
     @Test
     public void groupNNsharedClipNN() {
-        login("Adam1", "vievu123");
-        setPermissions("Adam5", "N", "N");
-        shareVideoWithUser("Adam5g", "autotestvideo2_CLIP-001.mp4", "N", "N");
+        login(Data.user1, Data.pass1);
+        setPermissions(Data.user2, "N", "N");
+        shareVideoWithUser(Data.group2, Data.clip2, "N", "N");
         logOut();
-        login("Adam5", "vievu123");
+        login(Data.user2, Data.pass2);
         checkShareVideoWithUser("N", "N");
         logOut();
     }
 
     @Test
     public void groupNNsharedClipYN() {
-        login("Adam1", "vievu123");
-        setPermissions("Adam5", "N", "N");
-        shareVideoWithUser("Adam5g", "autotestvideo2_CLIP-001.mp4", "Y", "N");
+        login(Data.user1, Data.pass1);
+        setPermissions(Data.user2, "N", "N");
+        shareVideoWithUser(Data.group2, Data.clip2, "Y", "N");
         logOut();
-        login("Adam5", "vievu123");
+        login(Data.user2, Data.pass2);
         checkShareVideoWithUser("Y", "N");
         logOut();
     }
 
     @Test
     public void groupNNsharedClipNY() {
-        login("Adam1", "vievu123");
-        setPermissions("Adam5", "N", "N");
-        shareVideoWithUser("Adam5g", "autotestvideo2_CLIP-001.mp4", "N", "Y");
+        login(Data.user1, Data.pass1);
+        setPermissions(Data.user2, "N", "N");
+        shareVideoWithUser(Data.group2, Data.clip2, "N", "Y");
         logOut();
-        login("Adam5", "vievu123");
+        login(Data.user2, Data.pass2);
         checkShareVideoWithUser("N", "Y");
         logOut();
     }
 
     @Test
     public void groupNNsharedClipYY() {
-        login("Adam1", "vievu123");
-        setPermissions("Adam5", "N", "N");
-        shareVideoWithUser("Adam5g", "autotestvideo2_CLIP-001.mp4", "Y", "Y");
+        login(Data.user1, Data.pass1);
+        setPermissions(Data.user2, "N", "N");
+        shareVideoWithUser(Data.group2, Data.clip2, "Y", "Y");
         logOut();
-        login("Adam5", "vievu123");
+        login(Data.user2, Data.pass2);
         checkShareVideoWithUser("Y", "Y");
         logOut();
     }
@@ -1139,44 +1155,44 @@ import java.util.concurrent.TimeUnit;
     //======================================================================================================================================================================
     @Test
     public void groupYYsharedClipNN() {
-        login("Adam1", "vievu123");
-        setPermissions("Adam5", "Y", "Y");
-        shareVideoWithUser("Adam5g", "autotestvideo2_CLIP-001.mp4", "N", "N");
+        login(Data.user1, Data.pass1);
+        setPermissions(Data.user2, "Y", "Y");
+        shareVideoWithUser(Data.group2, Data.clip2, "N", "N");
         logOut();
-        login("Adam5", "vievu123");
+        login(Data.user2, Data.pass2);
         checkShareVideoWithUser("Y", "Y");
         logOut();
     }
 
     @Test
     public void groupYYsharedClipYN() {
-        login("Adam1", "vievu123");
-        setPermissions("Adam5", "Y", "Y");
-        shareVideoWithUser("Adam5g", "autotestvideo2_CLIP-001.mp4", "Y", "N");
+        login(Data.user1, Data.pass1);
+        setPermissions(Data.user2, "Y", "Y");
+        shareVideoWithUser(Data.group2, Data.clip2, "Y", "N");
         logOut();
-        login("Adam5", "vievu123");
+        login(Data.user2, Data.pass2);
         checkShareVideoWithUser("Y", "Y");
         logOut();
     }
 
     @Test
     public void groupYYsharedClipNY() {
-        login("Adam1", "vievu123");
-        setPermissions("Adam5", "Y", "Y");
-        shareVideoWithUser("Adam5g", "autotestvideo2_CLIP-001.mp4", "N", "Y");
+        login(Data.user1, Data.pass1);
+        setPermissions(Data.user2, "Y", "Y");
+        shareVideoWithUser(Data.group2, Data.clip2, "N", "Y");
         logOut();
-        login("Adam5", "vievu123");
+        login(Data.user2, Data.pass2);
         checkShareVideoWithUser("Y", "Y");
         logOut();
     }
 
     @Test
     public void groupYYsharedClipYY() {
-        login("Adam1", "vievu123");
-        setPermissions("Adam5", "Y", "Y");
-        shareVideoWithUser("Adam5g", "autotestvideo2_CLIP-001.mp4", "Y", "Y");
+        login(Data.user1, Data.pass1);
+        setPermissions(Data.user2, "Y", "Y");
+        shareVideoWithUser(Data.group2, Data.clip2, "Y", "Y");
         logOut();
-        login("Adam5", "vievu123");
+        login(Data.user2, Data.pass2);
         checkShareVideoWithUser("Y", "Y");
         logOut();
     }
@@ -1185,88 +1201,88 @@ import java.util.concurrent.TimeUnit;
     //======================================================================================================================================================================
     @Test
     public void userNNsharedRedactedClipNN() {
-        login("Adam1", "vievu123");
-        setPermissions("Adam6", "N", "N");
-        shareRedactedClipWithUser("Adam6", "autotestvideo1_CLIP-001.mp4", "N", "N");
+        login(Data.user1, Data.pass1);
+        setPermissions(Data.user2, "N", "N");
+        shareRedactedClipWithUser(Data.user2, Data.clip1, "N", "N");
         logOut();
-        login("Adam6", "vievu123");
+        login(Data.user2, Data.pass2);
         checkShareRedactedClipWithUser("N", "N");
         logOut();
     }
 
     @Test
     public void userNNsharedRedactedClipYN() {
-        login("Adam1", "vievu123");
-        setPermissions("Adam6", "N", "N");
-        shareRedactedClipWithUser("Adam6", "autotestvideo1_CLIP-001.mp4", "Y", "N");
+        login(Data.user1, Data.pass1);
+        setPermissions(Data.user2, "N", "N");
+        shareRedactedClipWithUser(Data.user2, Data.clip1, "Y", "N");
         logOut();
-        login("Adam6", "vievu123");
+        login(Data.user2, Data.pass2);
         checkShareRedactedClipWithUser("Y", "N");
         logOut();
     }
 
     @Test
     public void userNNsharedRedactedClipNY() {
-        login("Adam1", "vievu123");
-        setPermissions("Adam6", "N", "N");
-        shareRedactedClipWithUser("Adam6", "autotestvideo1_CLIP-001.mp4", "N", "Y");
+        login(Data.user1, Data.pass1);
+        setPermissions(Data.user2, "N", "N");
+        shareRedactedClipWithUser(Data.user2, Data.clip1, "N", "Y");
         logOut();
-        login("Adam6", "vievu123");
+        login(Data.user2, Data.pass2);
         checkShareRedactedClipWithUser("N", "Y");
         logOut();
     }
 
     @Test
     public void userNNsharedRedactedClipYY() {
-        login("Adam1", "vievu123");
-        setPermissions("Adam6", "N", "N");
-        shareRedactedClipWithUser("Adam6", "autotestvideo1_CLIP-001.mp4", "Y", "Y");
+        login(Data.user1, Data.pass1);
+        setPermissions(Data.user2, "N", "N");
+        shareRedactedClipWithUser(Data.user2, Data.clip1, "Y", "Y");
         logOut();
-        login("Adam6", "vievu123");
+        login(Data.user2, Data.pass2);
         checkShareRedactedClipWithUser("Y", "Y");
         logOut();
     }
     //======================================================================================================================================================================
     @Test
     public void userYYsharedRedactedClipNN() {
-        login("Adam1", "vievu123");
-        setPermissions("Adam6", "Y", "Y");
-        shareRedactedClipWithUser("Adam6", "autotestvideo1_CLIP-001.mp4", "N", "N");
+        login(Data.user1, Data.pass1);
+        setPermissions(Data.user2, "Y", "Y");
+        shareRedactedClipWithUser(Data.user2, Data.clip1, "N", "N");
         logOut();
-        login("Adam6", "vievu123");
+        login(Data.user2, Data.pass2);
         checkShareRedactedClipWithUser("Y", "Y");
         logOut();
     }
 
     @Test
     public void userYYsharedRedactedClipYN() {
-        login("Adam1", "vievu123");
-        setPermissions("Adam6", "Y", "Y");
-        shareRedactedClipWithUser("Adam6", "autotestvideo1_CLIP-001.mp4", "Y", "N");
+        login(Data.user1, Data.pass1);
+        setPermissions(Data.user2, "Y", "Y");
+        shareRedactedClipWithUser(Data.user2, Data.clip1, "Y", "N");
         logOut();
-        login("Adam6", "vievu123");
+        login(Data.user2, Data.pass2);
         checkShareRedactedClipWithUser("Y", "Y");
         logOut();
     }
 
     @Test
     public void userYYsharedRedactedClipNY() {
-        login("Adam1", "vievu123");
-        setPermissions("Adam6", "Y", "Y");
-        shareRedactedClipWithUser("Adam6", "autotestvideo1_CLIP-001.mp4", "N", "Y");
+        login(Data.user1, Data.pass1);
+        setPermissions(Data.user2, "Y", "Y");
+        shareRedactedClipWithUser(Data.user2, Data.clip1, "N", "Y");
         logOut();
-        login("Adam6", "vievu123");
+        login(Data.user2, Data.pass2);
         checkShareRedactedClipWithUser("Y", "Y");
         logOut();
     }
 
     @Test
     public void userYYsharedRedactedClipYY() {
-        login("Adam1", "vievu123");
-        setPermissions("Adam6", "Y", "Y");
-        shareRedactedClipWithUser("Adam6", "autotestvideo1_CLIP-001.mp4", "Y", "Y");
+        login(Data.user1, Data.pass1);
+        setPermissions(Data.user2, "Y", "Y");
+        shareRedactedClipWithUser(Data.user2, Data.clip1, "Y", "Y");
         logOut();
-        login("Adam6", "vievu123");
+        login(Data.user2, Data.pass2);
         checkShareRedactedClipWithUser("Y", "Y");
         logOut();
     }
@@ -1274,44 +1290,44 @@ import java.util.concurrent.TimeUnit;
     //======================================================================================================================================================================
     @Test
     public void groupNNsharedRedactedClipNN() {
-        login("Adam1", "vievu123");
-        setPermissions("Adam6", "N", "N");
-        shareRedactedClipWithUser("Adam6g", "autotestvideo2_CLIP-001.mp4", "N", "N");
+        login(Data.user1, Data.pass1);
+        setPermissions(Data.user2, "N", "N");
+        shareRedactedClipWithUser(Data.group2, Data.clip2, "N", "N");
         logOut();
-        login("Adam6", "vievu123");
+        login(Data.user2, Data.pass2);
         checkShareRedactedClipWithUser("N", "N");
         logOut();
     }
 
     @Test
     public void groupNNsharedRedactedClipYN() {
-        login("Adam1", "vievu123");
-        setPermissions("Adam6", "N", "N");
-        shareRedactedClipWithUser("Adam6g", "autotestvideo2_CLIP-001.mp4", "Y", "N");
+        login(Data.user1, Data.pass1);
+        setPermissions(Data.user2, "N", "N");
+        shareRedactedClipWithUser(Data.group2, Data.clip2, "Y", "N");
         logOut();
-        login("Adam6", "vievu123");
+        login(Data.user2, Data.pass2);
         checkShareRedactedClipWithUser("Y", "N");
         logOut();
     }
 
     @Test
     public void groupNNsharedRedactedClipNY() {
-        login("Adam1", "vievu123");
-        setPermissions("Adam6", "N", "N");
-        shareRedactedClipWithUser("Adam6g", "autotestvideo2_CLIP-001.mp4", "N", "Y");
+        login(Data.user1, Data.pass1);
+        setPermissions(Data.user2, "N", "N");
+        shareRedactedClipWithUser(Data.group2, Data.clip2, "N", "Y");
         logOut();
-        login("Adam6", "vievu123");
+        login(Data.user2, Data.pass2);
         checkShareRedactedClipWithUser("N", "Y");
         logOut();
     }
 
     @Test
     public void groupNNsharedRedactedClipYY() {
-        login("Adam1", "vievu123");
-        setPermissions("Adam6", "N", "N");
-        shareRedactedClipWithUser("Adam6g", "autotestvideo2_CLIP-001.mp4", "Y", "Y");
+        login(Data.user1, Data.pass1);
+        setPermissions(Data.user2, "N", "N");
+        shareRedactedClipWithUser(Data.group2, Data.clip2, "Y", "Y");
         logOut();
-        login("Adam6", "vievu123");
+        login(Data.user2, Data.pass2);
         checkShareRedactedClipWithUser("Y", "Y");
         logOut();
     }
@@ -1319,44 +1335,44 @@ import java.util.concurrent.TimeUnit;
     //======================================================================================================================================================================
     @Test
     public void groupYYsharedRedactedClipNN() {
-        login("Adam1", "vievu123");
-        setPermissions("Adam6", "Y", "Y");
-        shareRedactedClipWithUser("Adam6g", "autotestvideo2_CLIP-001.mp4", "N", "N");
+        login(Data.user1, Data.pass1);
+        setPermissions(Data.user2, "Y", "Y");
+        shareRedactedClipWithUser(Data.group2, Data.clip2, "N", "N");
         logOut();
-        login("Adam6", "vievu123");
+        login(Data.user2, Data.pass2);
         checkShareRedactedClipWithUser("Y", "Y");
         logOut();
     }
 
     @Test
     public void groupYYsharedRedactedClipYN() {
-        login("Adam1", "vievu123");
-        setPermissions("Adam6", "Y", "Y");
-        shareRedactedClipWithUser("Adam6g", "autotestvideo2_CLIP-001.mp4", "Y", "N");
+        login(Data.user1, Data.pass1);
+        setPermissions(Data.user2, "Y", "Y");
+        shareRedactedClipWithUser(Data.group2, Data.clip2, "Y", "N");
         logOut();
-        login("Adam6", "vievu123");
+        login(Data.user2, Data.pass2);
         checkShareRedactedClipWithUser("Y", "Y");
         logOut();
     }
 
     @Test
     public void groupYYsharedRedactedClipNY() {
-        login("Adam1", "vievu123");
-        setPermissions("Adam6", "Y", "Y");
-        shareRedactedClipWithUser("Adam6g", "autotestvideo2_CLIP-001.mp4", "N", "Y");
+        login(Data.user1, Data.pass1);
+        setPermissions(Data.user2, "Y", "Y");
+        shareRedactedClipWithUser(Data.group2, Data.clip2, "N", "Y");
         logOut();
-        login("Adam6", "vievu123");
+        login(Data.user2, Data.pass2);
         checkShareRedactedClipWithUser("Y", "Y");
         logOut();
     }
 
     @Test
     public void groupYYsharedRedactedClipYY() {
-        login("Adam1", "vievu123");
-        setPermissions("Adam6", "Y", "Y");
-        shareRedactedClipWithUser("Adam6g", "autotestvideo2_CLIP-001.mp4", "Y", "Y");
+        login(Data.user1, Data.pass1);
+        setPermissions(Data.user2, "Y", "Y");
+        shareRedactedClipWithUser(Data.group2, Data.clip2, "Y", "Y");
         logOut();
-        login("Adam6", "vievu123");
+        login(Data.user2, Data.pass2);
         checkShareRedactedClipWithUser("Y", "Y");
         logOut();
     }
