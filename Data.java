@@ -15,16 +15,13 @@ class Data {
     static String group2 = "Adam2g"; //User 2 is member of this group
 
     //Here will be the test files (files with this names should present on the web site and uploaded by user1)
-    //Important note: video1, video2, clip1, clip2 should have 1 redacted video
+    //Important note: video, clip, should have 1 redacted video
     //Video:
-    static String video1 = "autotestvideo1.AVI";
-    static String video2 = "autotestvideo2.AVI";
+    static String video = "autotestvideo1.AVI";
 
     //File:
-    static String file1 = "autotestfile1.TXT";
-    static String file2 = "autotestfile2.TXT";
+    static String file = "autotestfile1.TXT";
 
     //Clip:
-    static String clip1 = "autotestvideo1_CLIP-001.mp4";
-    static String clip2 = "autotestvideo2_CLIP-001.mp4";
+    static String clip = "autotestvideo1_CLIP-001.mp4";
 }
