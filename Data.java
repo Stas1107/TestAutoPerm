@@ -1,5 +1,5 @@
 package Solution;
-
+// В дальнейших планах вся эта инфа будет читаться с файла на компьютере
 class Data {
     //Subscription:
     static  String subscription = "https://securitytest.vievusolution.com";
@@ -10,6 +10,7 @@ class Data {
 
     //User with whom will be shared:
     //Note: No any video/file should be shared with this user
+    //User role name should have the same name as username
     static String user2 = "Adam2"; //User 2 login
     static String pass2 = "vievu123"; //User 2 password
     static String group2 = "Adam2g"; //User 2 is member of this group

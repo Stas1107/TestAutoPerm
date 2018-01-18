@@ -25,6 +25,7 @@ import java.util.concurrent.TimeUnit;
     }
     private void setPermissions(String UserName, String download, String audit) {
         WebDriverWait wait = new WebDriverWait(driver, 10);
+        wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("#menuRolesController > a:nth-child(1)")));
         driver.findElement(By.cssSelector("#menuRolesController > a:nth-child(1)")) .click();
         wait.until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector("#loading-overlay")));
         driver.findElement(By.cssSelector(".nav-stacked > li:nth-child(2) > a:nth-child(1)")) .click();
@@ -167,6 +168,7 @@ import java.util.concurrent.TimeUnit;
         driver.findElement(By.cssSelector("#videosContainer > div.col-xs-12.video-search-column > div > div.col-xs-6.results-container.col-xl-5 > div > div.panel-body > div:nth-child(1) > div > a > div > div > div.media-body.media-middle")) .click();
         wait.until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector("#loading-overlay")));
         if (download.equals("Y")) {
+            wait.until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector("#loading-overlay")));
             wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("#make-copy")));
             driver.findElement(By.cssSelector("#make-copy")).click();
             driver.findElement(By.cssSelector("#makeCopyDescriptionModal > div.modal-dialog > div > div.modal-body > div:nth-child(2) > textarea")).sendKeys("Stas auto test");
@@ -174,9 +176,11 @@ import java.util.concurrent.TimeUnit;
             wait.until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector("#loading-overlay")));
         }
         if (audit.equals("Y")) {
+            wait.until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector("#loading-overlay")));
+            wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector("#export-audit-log")));
             wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("#export-audit-log")));
             driver.findElement(By.cssSelector("#export-audit-log")).click();
-            wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("#confirmation-button-yes")));
+            wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector("#confirmation-button-yes")));
             driver.findElement(By.cssSelector("#confirmation-button-yes")).click();
             wait.until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector("#loading-overlay")));
         }
@@ -202,14 +206,19 @@ import java.util.concurrent.TimeUnit;
         driver.findElement(By.cssSelector("#videosContainer > div.col-xs-12.video-search-column > div > div.col-xs-6.results-container.col-xl-5 > div > div.panel-body > div:nth-child(1) > div > a > div > div > div.media-body.media-middle")) .click();
         wait.until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector("#loading-overlay")));
         if (download.equals("Y")) {
+            wait.until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector("#loading-overlay")));
+            wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("#make-copy")));
             driver.findElement(By.cssSelector("#make-copy")).click();
             driver.findElement(By.cssSelector("#makeCopyDescriptionModal > div.modal-dialog > div > div.modal-body > div:nth-child(2) > textarea")).sendKeys("Stas auto test");
             driver.findElement(By.cssSelector("div.modal-dialog:nth-child(2) > div:nth-child(1) > div:nth-child(3) > button:nth-child(2)")).click();
             wait.until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector("#loading-overlay")));
         }
         if (audit.equals("Y")) {
+            wait.until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector("#loading-overlay")));
+            wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector("#export-audit-log")));
+            wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("#export-audit-log")));
             driver.findElement(By.cssSelector("#export-audit-log")).click();
-            wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("#confirmation-button-yes")));
+            wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector("#confirmation-button-yes")));
             driver.findElement(By.cssSelector("#confirmation-button-yes")).click();
             wait.until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector("#loading-overlay")));
         }
@@ -234,6 +243,7 @@ import java.util.concurrent.TimeUnit;
         driver.findElement(By.cssSelector("#videosContainer > div.col-xs-12.video-search-column > div > div.col-xs-6.results-container.col-xl-5 > div > div.panel-body > div:nth-child(1) > div > a > div > div > div.media-body.media-middle")) .click();
         wait.until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector("#loading-overlay")));
         if (download.equals("Y")) {
+            wait.until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector("#loading-overlay")));
             wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("#make-copy")));
             driver.findElement(By.cssSelector("#make-copy")).click();
             driver.findElement(By.cssSelector("#makeCopyDescriptionModal > div.modal-dialog > div > div.modal-body > div:nth-child(2) > textarea")).sendKeys("Stas auto test");
@@ -241,8 +251,11 @@ import java.util.concurrent.TimeUnit;
             wait.until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector("#loading-overlay")));
         }
         if (audit.equals("Y")) {
+            wait.until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector("#loading-overlay")));
+            wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector("#export-audit-log")));
             wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("#export-audit-log")));
             driver.findElement(By.cssSelector("#export-audit-log")).click();
+            wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector("#confirmation-button-yes")));
             driver.findElement(By.cssSelector("#confirmation-button-yes")).click();
             wait.until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector("#loading-overlay")));
         }
@@ -265,14 +278,8 @@ import java.util.concurrent.TimeUnit;
         driver.manage().window().maximize();
     }
 
-   // @Test
-    //public void test() {
-        //login("Adam1", Data.pass2);
-        //setPermissions(Data.user2, "Y", "N");
-    //}
-
     //======================================================================================================================================================================
-    @Test
+    /*@Test Not implemented yet
     public void userNNsharedVideoNN() {
         login(Data.user1, Data.pass1);
         setPermissions(Data.user2,"N", "N");
@@ -281,7 +288,7 @@ import java.util.concurrent.TimeUnit;
         login(Data.user2, Data.pass2);
         checkShareWithUser("N", "N");
         logOut();
-    }
+    } */
 
     @Test
     public void userNNsharedVideoYN() {
@@ -361,7 +368,7 @@ import java.util.concurrent.TimeUnit;
     }
 
     //======================================================================================================================================================================
-    @Test
+    /*@Test Not implemented yet
     public void groupNNsharedVideoNN() {
         login(Data.user1, Data.pass1);
         setPermissions(Data.user2, "N", "N");
@@ -370,7 +377,7 @@ import java.util.concurrent.TimeUnit;
         login(Data.user2, Data.pass2);
         checkShareWithUser("N", "N");
         logOut();
-    }
+    } */
 
     @Test
     public void groupNNsharedVideoYN() {
@@ -452,7 +459,7 @@ import java.util.concurrent.TimeUnit;
 
     //======================================================================================================================================================================
     //======================================================================================================================================================================
-    @Test
+    /*@Test Not implemented yet
     public void userNNsharedRedactedVideoNN() {
         login(Data.user1, Data.pass1);
         setPermissions(Data.user2, "N", "N");
@@ -461,7 +468,7 @@ import java.util.concurrent.TimeUnit;
         login(Data.user2, Data.pass2);
         checkShareRedactionWithUser("N", "N");
         logOut();
-    }
+    } */
 
     @Test
     public void userNNsharedRedactedVideoYN() {
@@ -541,7 +548,7 @@ import java.util.concurrent.TimeUnit;
     }
 
     //======================================================================================================================================================================
-    @Test
+    /*@Test Not implemented yet
     public void groupNNsharedRedactedVideoNN() {
         login(Data.user1, Data.pass1);
         setPermissions(Data.user2, "N", "N");
@@ -550,7 +557,7 @@ import java.util.concurrent.TimeUnit;
         login(Data.user2, Data.pass2);
         checkShareRedactionWithUser("N", "N");
         logOut();
-    }
+    } */
 
     @Test
     public void groupNNsharedRedactedVideoYN() {
@@ -632,7 +639,7 @@ import java.util.concurrent.TimeUnit;
 
     //======================================================================================================================================================================
     //======================================================================================================================================================================
-    @Test
+    /*@Test Not implemented yet
     public void userNNsharedFileNN() {
         login(Data.user1, Data.pass1);
         setPermissions(Data.user2, "N", "N");
@@ -641,7 +648,7 @@ import java.util.concurrent.TimeUnit;
         login(Data.user2, Data.pass2);
         checkShareFileWithUser("N", "N");
         logOut();
-    }
+    } */
 
     @Test
     public void userNNsharedFileYN() {
@@ -721,7 +728,7 @@ import java.util.concurrent.TimeUnit;
     }
 
     //======================================================================================================================================================================
-    @Test
+    /*@Test Not implemented yet
     public void groupNNsharedFileNN() {
         login(Data.user1, Data.pass1);
         setPermissions(Data.user2, "N", "N");
@@ -730,7 +737,7 @@ import java.util.concurrent.TimeUnit;
         login(Data.user2, Data.pass2);
         checkShareFileWithUser("N", "N");
         logOut();
-    }
+    } */
 
     @Test
     public void groupNNsharedFileYN() {
@@ -812,7 +819,7 @@ import java.util.concurrent.TimeUnit;
 
     //======================================================================================================================================================================
     //======================================================================================================================================================================
-    @Test
+    /*@Test Not implemented yet
     public void userNNsharedClipNN() {
         login(Data.user1, Data.pass1);
         setPermissions(Data.user2, "N", "N");
@@ -821,7 +828,7 @@ import java.util.concurrent.TimeUnit;
         login(Data.user2, Data.pass2);
         checkShareWithUser("N", "N");
         logOut();
-    }
+    } */
 
     @Test
     public void userNNsharedClipYN() {
@@ -901,7 +908,7 @@ import java.util.concurrent.TimeUnit;
     }
 
     //======================================================================================================================================================================
-    @Test
+    /*@Test Not implemented yet
     public void groupNNsharedClipNN() {
         login(Data.user1, Data.pass1);
         setPermissions(Data.user2, "N", "N");
@@ -910,7 +917,7 @@ import java.util.concurrent.TimeUnit;
         login(Data.user2, Data.pass2);
         checkShareWithUser("N", "N");
         logOut();
-    }
+    } */
 
     @Test
     public void groupNNsharedClipYN() {
@@ -992,7 +999,7 @@ import java.util.concurrent.TimeUnit;
 
     //======================================================================================================================================================================
     //======================================================================================================================================================================
-    @Test
+    /*@Test Not implemented yet
     public void userNNsharedRedactedClipNN() {
         login(Data.user1, Data.pass1);
         setPermissions(Data.user2, "N", "N");
@@ -1001,7 +1008,7 @@ import java.util.concurrent.TimeUnit;
         login(Data.user2, Data.pass2);
         checkShareRedactionWithUser("N", "N");
         logOut();
-    }
+    } */
 
     @Test
     public void userNNsharedRedactedClipYN() {
@@ -1081,7 +1088,7 @@ import java.util.concurrent.TimeUnit;
     }
 
     //======================================================================================================================================================================
-    @Test
+    /*@Test Not implemented yet
     public void groupNNsharedRedactedClipNN() {
         login(Data.user1, Data.pass1);
         setPermissions(Data.user2, "N", "N");
@@ -1090,7 +1097,7 @@ import java.util.concurrent.TimeUnit;
         login(Data.user2, Data.pass2);
         checkShareRedactionWithUser("N", "N");
         logOut();
-    }
+    } */
 
     @Test
     public void groupNNsharedRedactedClipYN() {
