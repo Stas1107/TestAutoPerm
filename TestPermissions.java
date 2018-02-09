@@ -5,6 +5,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
+import org.openqa.selenium.WebElement;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.WebDriverWait;
@@ -12,7 +13,67 @@ import java.util.concurrent.TimeUnit;
 
     public class TestPermissions {
     private WebDriver driver;
-    private void login(String login, String pass) {
+    //Videos&Files Tab selectors
+    private String videosFilesTabButton = "#menuFilesController > a";
+
+    //Roles Tab selectors
+    private String rolesTabButton = "#menuRolesController > a:nth-child(1)";
+    private String rolesEditButton = "#gridTemplateTable > tbody > tr > td:nth-child(28) > p > a";
+    private String rolesPopupDownloadText = "#editRoleForm > div > div.nopadding.col-xs-8 > div:nth-child(14) > div > div > span";
+    private String rolesPopupDownloadSwitch = "#editRoleForm > div > div.nopadding.col-xs-8 > div:nth-child(14) > div > div > label > span.check";
+    private String rolesPopupAuditText = "#editRoleForm > div > div.nopadding.col-xs-8 > div:nth-child(19) > div > div > span";
+    private String rolesPopupAuditSwitch = "#editRoleForm > div > div.nopadding.col-xs-8 > div:nth-child(19) > div > div > label > span.check";
+    private String rolesPopupSaveButton = "#editRoleModal > div.modal-dialog > div > div.modal-footer > button.btn.btn-primary.btn-lg";
+
+    //Filer List selectors
+    private String filtersFileName = "#videosContainer > div.side-bar-column > div > ul > li:nth-child(14) > a";
+    private String filtersShared = "#videosContainer > div.side-bar-column > div > ul > li:nth-child(16) > a";
+    private String filtersName = "#rolesContainer > div.side-bar-column > div > ul > li:nth-child(2) > a";
+
+    //Search Pannel selectors
+    private String searchPanelAllButton = "#search-panel-file-name-filter-template > div:nth-child(1) > div > div:nth-child(2) > div > ul > li:nth-child(3) > a";
+    private String searchPanelTextField = ".search-container > div:nth-child(1) > div:nth-child(1) > div:nth-child(2) > div:nth-child(1) > input:nth-child(1)";
+    private String searchPanelPlusButton = "div.clearfix:nth-child(3) > a:nth-child(1)";
+    private String searchPanelSearchButton = ".btn-s-md";
+    private String searchPanelTextSearchField = "input.form-control:nth-child(1)";
+    private String searchPanelListUsers = ".list-group-item";
+    private String searchPanelSharedDropdown = ".chosen-single > span:nth-child(1)";
+    private String searchPanelSharedWithMe = "li.active-result:nth-child(2)";
+    private String searchPanelSharedPlusButton = "span.btn-rounded";
+
+    //Filter Results selectors
+    private String filterResultsFirstRow = "#videosContainer > div.col-xs-12.video-search-column > div > div.col-xs-6.results-container.col-xl-5 > div > div.panel-body > div:nth-child(1) > div > a:nth-child(1)";
+
+    //Popup selectors
+    private String okButton = "#message-button-ok";
+    private String yesButton = "#confirmation-button-yes";
+
+    //Control Selectors
+    private String downloadButton = "#make-copy";
+    private String auditButton = "#export-audit-log";
+
+    //Download Popup selectors
+    private String downloadPopupPurposeField = "#makeCopyDescriptionModal > div.modal-dialog > div > div.modal-body > div:nth-child(2) > textarea";
+    private String downloadPopupDownloadButton = "div.modal-dialog:nth-child(2) > div:nth-child(1) > div:nth-child(3) > button:nth-child(2)";
+
+    //Share Popup selectors
+    private String sharePopupNumberOfRows = "div.results-container:nth-child(1) > div:nth-child(2) > div:nth-child(1) > div:nth-child(3) > span:nth-child(2)";
+    private String sharePopupDeleteShareButton = "#gridTemplateTable > tbody > tr:nth-child(1) > td:nth-child(7) > p > a";
+    private String sharePopupPlusButton = "#sharedLinkModal > div.modal-dialog > div > div > div:nth-child(2) > div > div.col-xs-2 > a";
+    private String sharePopupUserButton = "#sharedLinkModal > div.modal-dialog > div > div > div:nth-child(2) > div > div.col-xs-2.open > ul > li:nth-child(1) > a";
+    private String sharePopupUserField = "#users-dropdown-multiple-edit";
+    private String sharePopupListOfUsers = "#list-group-item-0";
+    private String sharePopupPurposeField = ".edit-shared-case-popup-body > div:nth-child(2) > div:nth-child(2) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) > textarea:nth-child(2)";
+    private String sharePopupDownloadSwitch = ".edit-shared-case-popup-body > div:nth-child(3) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) > div:nth-child(2) > label:nth-child(1) > span:nth-child(2)";
+    private String sharePopupAuditSwitch = ".edit-shared-case-popup-body > div:nth-child(3) > div:nth-child(1) > div:nth-child(2) > div:nth-child(2) > div:nth-child(1) > label:nth-child(1) > span:nth-child(2)";
+    private String sharePopupShareButton = "div.share-details:nth-child(2) > div:nth-child(1) > div:nth-child(3) > button:nth-child(2)";
+    private String sharePopupCloseButton = "#sharedLinkModal > div:nth-child(2) > div:nth-child(1) > div:nth-child(1) > button:nth-child(1)";
+
+
+
+
+
+        private void login(String login, String pass) {
         driver.findElement(By.cssSelector("#Login")) .sendKeys(login);
         driver.findElement(By.cssSelector(".btn")) .click();
         driver.findElement(By.cssSelector("#Password")) .sendKeys(pass);
@@ -25,56 +86,56 @@ import java.util.concurrent.TimeUnit;
     }
     private void setPermissions(String UserName, String download, String audit) {
         WebDriverWait wait = new WebDriverWait(driver, 10);
-        wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("#menuRolesController > a:nth-child(1)")));
-        driver.findElement(By.cssSelector("#menuRolesController > a:nth-child(1)")) .click();
+        wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector(rolesTabButton)));
+        driver.findElement(By.cssSelector(rolesTabButton)).click();
         wait.until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector("#loading-overlay")));
-        driver.findElement(By.cssSelector(".nav-stacked > li:nth-child(2) > a:nth-child(1)")) .click();
-        driver.findElement(By.cssSelector("input.form-control:nth-child(1)")) .sendKeys(UserName);
+        driver.findElement(By.cssSelector(filtersName)).click();
+        driver.findElement(By.cssSelector(searchPanelTextSearchField)).sendKeys(UserName);
         wait.until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector("#loading-overlay")));
-        driver.findElement(By.cssSelector(".list-group-item")) .click();
-        driver.findElement(By.cssSelector(".btn-s-md")) .click();
+        driver.findElement(By.cssSelector(searchPanelListUsers)) .click();
+        driver.findElement(By.cssSelector(searchPanelSearchButton)) .click();
         wait.until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector("#loading-overlay")));
-        driver.findElement(By.cssSelector("#gridTemplateTable > tbody > tr > td:nth-child(26) > p > a")) .click();
+        driver.findElement(By.cssSelector(rolesEditButton)).click();
         wait.until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector("#loading-overlay")));
         if (download.equals("Y")) {
-            String downloadPermission = driver.findElement(By.cssSelector("#editRoleForm > div > div.nopadding.col-xs-8 > div:nth-child(13) > div > div > span")).getAttribute("textContent");
+            String downloadPermission = driver.findElement(By.cssSelector(rolesPopupDownloadText)).getAttribute("textContent");
             if (downloadPermission.equals("N")) {
-                driver.findElement(By.cssSelector("#editRoleForm > div > div.nopadding.col-xs-8 > div:nth-child(13) > div > div > label > span.check")).click();
+                driver.findElement(By.cssSelector(rolesPopupDownloadSwitch)).click();
             }
         }
         if (download.equals("N")) {
-            String downloadPermission = driver.findElement(By.cssSelector("#editRoleForm > div > div.nopadding.col-xs-8 > div:nth-child(13) > div > div > span")).getAttribute("textContent");
+            String downloadPermission = driver.findElement(By.cssSelector(rolesPopupDownloadText)).getAttribute("textContent");
             if (downloadPermission.equals("Y")) {
-                driver.findElement(By.cssSelector("#editRoleForm > div > div.nopadding.col-xs-8 > div:nth-child(13) > div > div > label > span.check")).click();
+                driver.findElement(By.cssSelector(rolesPopupDownloadSwitch)).click();
             }
         }
         if (audit.equals("Y")) {
-            String auditPermission = driver.findElement(By.cssSelector("#editRoleForm > div > div.nopadding.col-xs-8 > div:nth-child(18) > div > div > span")).getAttribute("textContent");
+            String auditPermission = driver.findElement(By.cssSelector(rolesPopupAuditText)).getAttribute("textContent");
             if (auditPermission.equals("N")) {
-                driver.findElement(By.cssSelector("#editRoleForm > div > div.nopadding.col-xs-8 > div:nth-child(18) > div > div > label > span.check")).click();
+                driver.findElement(By.cssSelector(rolesPopupAuditSwitch)).click();
             }
         }
         if (audit.equals("N")) {
-            String auditPermission = driver.findElement(By.cssSelector("#editRoleForm > div > div.nopadding.col-xs-8 > div:nth-child(18) > div > div > span")).getAttribute("textContent");
+            String auditPermission = driver.findElement(By.cssSelector(rolesPopupAuditText)).getAttribute("textContent");
             if (auditPermission.equals("Y")) {
-                driver.findElement(By.cssSelector("#editRoleForm > div > div.nopadding.col-xs-8 > div:nth-child(18) > div > div > label > span.check")).click();
+                driver.findElement(By.cssSelector(rolesPopupAuditSwitch)).click();
             }
         }
-        driver.findElement(By.cssSelector("#editRoleModal > div.modal-dialog > div > div.modal-footer > button.btn.btn-primary.btn-lg")) .click();
+        driver.findElement(By.cssSelector(rolesPopupSaveButton)) .click();
         wait.until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector("#loading-overlay")));
-        driver.findElement(By.cssSelector("#message-button-ok")) .click();
+        driver.findElement(By.cssSelector(okButton)) .click();
         wait.until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector("#loading-overlay")));
-        driver.findElement(By.cssSelector("#menuFilesController > a")) .click();
+        driver.findElement(By.cssSelector(videosFilesTabButton)) .click();
     }
     private void shareWithUser(String user, String what, String download, String audit) {
         WebDriverWait wait = new WebDriverWait(driver, 10);
-        driver.findElement(By.cssSelector(".nav-stacked > li:nth-child(13) > a:nth-child(1)")) .click();
-        driver.findElement(By.cssSelector("#search-panel-file-name-filter-template > div:nth-child(1) > div > div:nth-child(2) > div > ul > li:nth-child(3) > a")).click();
-        driver.findElement(By.cssSelector(".search-container > div:nth-child(1) > div:nth-child(1) > div:nth-child(2) > div:nth-child(1) > input:nth-child(1)")) .sendKeys(what);
-        driver.findElement(By.cssSelector("div.clearfix:nth-child(3) > a:nth-child(1)")) .click();
-        driver.findElement(By.cssSelector(".btn-s-md")) .click();
+        driver.findElement(By.cssSelector(filtersFileName)) .click();
+        driver.findElement(By.cssSelector(searchPanelAllButton)).click();
+        driver.findElement(By.cssSelector(searchPanelTextField)) .sendKeys(what);
+        driver.findElement(By.cssSelector(searchPanelPlusButton)) .click();
+        driver.findElement(By.cssSelector(searchPanelSearchButton)) .click();
         wait.until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector("#loading-overlay")));
-        driver.findElement(By.cssSelector("#videosContainer > div.col-xs-12.video-search-column > div > div.col-xs-6.results-container.col-xl-5 > div > div.panel-body > div:nth-child(1) > div > a:nth-child(1)")) .click();
+        driver.findElement(By.cssSelector(filterResultsFirstRow)) .click();
         wait.until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector("#loading-overlay")));
         if (what.equals(Data.video)|what.equals(Data.clip)) {
             driver.findElement(By.cssSelector("div.clearfix:nth-child(3) > a:nth-child(1)")).click();
@@ -83,36 +144,37 @@ import java.util.concurrent.TimeUnit;
             driver.findElement(By.cssSelector("#print > div.row.file-info > div.col-xs-1 > div:nth-child(2) > a")).click();
         }
         wait.until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector("#loading-overlay")));
-        String shares = driver.findElement(By.cssSelector("div.results-container:nth-child(1) > div:nth-child(2) > div:nth-child(1) > div:nth-child(3) > span:nth-child(2)")).getAttribute("innerText");
+        String shares = driver.findElement(By.cssSelector(sharePopupNumberOfRows)).getAttribute("innerText");
         int sharesint = Integer.parseInt(shares);
         for (int i = 0; i < sharesint; i++) {
-            driver.findElement(By.cssSelector("#gridTemplateTable > tbody > tr:nth-child(1) > td:nth-child(7) > p > a")).click();
-            driver.findElement(By.cssSelector("#confirmation-button-yes")).click();
+            driver.findElement(By.cssSelector(sharePopupDeleteShareButton)).click();
+            driver.findElement(By.cssSelector(yesButton)).click();
             wait.until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector("#loading-overlay")));
-            driver.findElement(By.cssSelector("#message-button-ok")).click();
+            driver.findElement(By.cssSelector(okButton)).click();
         }
-        driver.findElement(By.cssSelector("#sharedLinkModal > div.modal-dialog > div > div > div:nth-child(2) > div > div.col-xs-2 > a")) .click();
-        driver.findElement(By.cssSelector("#sharedLinkModal > div.modal-dialog > div > div > div:nth-child(2) > div > div.col-xs-2.open > ul > li:nth-child(1) > a")) .click();
+        driver.findElement(By.cssSelector(sharePopupPlusButton)).click();
+        driver.findElement(By.cssSelector(sharePopupUserButton)).click();
         wait.until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector("#loading-overlay")));
-        driver.findElement(By.cssSelector("#users-dropdown-multiple-edit")) .sendKeys(user);
+        driver.findElement(By.cssSelector(sharePopupUserField)).sendKeys(user);
         wait.until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector("#loading-overlay")));
-        driver.findElement(By.cssSelector("#list-group-item-0")) .click();
-        driver.findElement(By.cssSelector(".edit-shared-case-popup-body > div:nth-child(2) > div:nth-child(2) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) > textarea:nth-child(2)")) .sendKeys("Stas auto test");
+        driver.findElement(By.cssSelector(sharePopupListOfUsers)).click();
+        driver.findElement(By.cssSelector(sharePopupPurposeField)).sendKeys("Stas auto test");
         if (download.equals("Y")) {
-            driver.findElement(By.cssSelector(".edit-shared-case-popup-body > div:nth-child(3) > div:nth-child(1) > div:nth-child(1) > div:nth-child(1) > div:nth-child(2) > label:nth-child(1) > span:nth-child(2)")) .click();
+            driver.findElement(By.cssSelector(sharePopupDownloadSwitch)).click();
         }
         if (audit.equals("Y")) {
-            driver.findElement(By.cssSelector(".edit-shared-case-popup-body > div:nth-child(3) > div:nth-child(1) > div:nth-child(2) > div:nth-child(2) > div:nth-child(1) > label:nth-child(1) > span:nth-child(2)")) .click();
+            driver.findElement(By.cssSelector(sharePopupAuditSwitch)).click();
         }
-        driver.findElement(By.cssSelector("div.share-details:nth-child(2) > div:nth-child(1) > div:nth-child(3) > button:nth-child(2)")) .click();
+        driver.findElement(By.cssSelector(sharePopupShareButton)) .click();
         wait.until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector("#loading-overlay")));
-        driver.findElement(By.cssSelector("#message-button-ok")) .click();
+        driver.findElement(By.cssSelector(okButton)) .click();
         wait.until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector("#loading-overlay")));
-        driver.findElement(By.cssSelector("#sharedLinkModal > div:nth-child(2) > div:nth-child(1) > div:nth-child(1) > button:nth-child(1)")) .click();
+        driver.findElement(By.cssSelector(sharePopupCloseButton)) .click();
     }
+    //This method will be merged with "shareWithUser" method
     private void shareRedactionWithUser(String user, String what, String download, String audit) {
         WebDriverWait wait = new WebDriverWait(driver, 10);
-        driver.findElement(By.cssSelector(".nav-stacked > li:nth-child(13) > a:nth-child(1)")) .click();
+        driver.findElement(By.cssSelector(filtersFileName)) .click();
         driver.findElement(By.cssSelector(".search-container > div:nth-child(1) > div:nth-child(1) > div:nth-child(2) > div:nth-child(1) > input:nth-child(1)")) .sendKeys(what);
         driver.findElement(By.cssSelector("div.clearfix:nth-child(3) > a:nth-child(1)")) .click();
         driver.findElement(By.cssSelector(".btn-s-md")) .click();
@@ -158,44 +220,45 @@ import java.util.concurrent.TimeUnit;
     }
     private void checkShareWithUser(String download, String audit){
         WebDriverWait wait = new WebDriverWait(driver, 20);
-        driver.findElement(By.cssSelector("#videosContainer > div.side-bar-column > div > ul > li:nth-child(15) > a")).click();
+        driver.findElement(By.cssSelector(filtersShared)).click();
         wait.until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector("#loading-overlay")));
-        driver.findElement(By.cssSelector(".chosen-single > span:nth-child(1)")) .click();
-        driver.findElement(By.cssSelector("li.active-result:nth-child(2)")) .click();
-        driver.findElement(By.cssSelector("span.btn-rounded")) .click();
-        driver.findElement(By.cssSelector(".btn-s-md")) .click();
+        driver.findElement(By.cssSelector(searchPanelSharedDropdown)) .click();
+        driver.findElement(By.cssSelector(searchPanelSharedWithMe)) .click();
+        driver.findElement(By.cssSelector(searchPanelSharedPlusButton)) .click();
+        driver.findElement(By.cssSelector(searchPanelSearchButton)) .click();
         wait.until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector("#loading-overlay")));
-        driver.findElement(By.cssSelector("#videosContainer > div.col-xs-12.video-search-column > div > div.col-xs-6.results-container.col-xl-5 > div > div.panel-body > div:nth-child(1) > div > a > div > div > div.media-body.media-middle")) .click();
+        driver.findElement(By.cssSelector(filterResultsFirstRow)) .click();
         wait.until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector("#loading-overlay")));
         if (download.equals("Y")) {
             wait.until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector("#loading-overlay")));
-            wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("#make-copy")));
-            driver.findElement(By.cssSelector("#make-copy")).click();
-            driver.findElement(By.cssSelector("#makeCopyDescriptionModal > div.modal-dialog > div > div.modal-body > div:nth-child(2) > textarea")).sendKeys("Stas auto test");
-            driver.findElement(By.cssSelector("div.modal-dialog:nth-child(2) > div:nth-child(1) > div:nth-child(3) > button:nth-child(2)")).click();
+            wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector(downloadButton)));
+            driver.findElement(By.cssSelector(downloadButton)).click();
+            driver.findElement(By.cssSelector(downloadPopupPurposeField)).sendKeys("Stas auto test");
+            driver.findElement(By.cssSelector(downloadPopupDownloadButton)).click();
             wait.until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector("#loading-overlay")));
         }
         if (audit.equals("Y")) {
             wait.until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector("#loading-overlay")));
-            wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector("#export-audit-log")));
-            wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("#export-audit-log")));
-            driver.findElement(By.cssSelector("#export-audit-log")).click();
-            wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector("#confirmation-button-yes")));
-            driver.findElement(By.cssSelector("#confirmation-button-yes")).click();
+            wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector(auditButton)));
+            wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector(auditButton)));
+            driver.findElement(By.cssSelector(auditButton)).click();
+            wait.until(ExpectedConditions.presenceOfElementLocated(By.cssSelector(yesButton)));
+            driver.findElement(By.cssSelector(yesButton)).click();
             wait.until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector("#loading-overlay")));
         }
         wait.until(ExpectedConditions.elementToBeClickable(By.cssSelector("#print > div.row.file-info > div.col-xs-1 > div:nth-child(3) > a")));
         driver.findElement(By.cssSelector("#print > div.row.file-info > div.col-xs-1 > div:nth-child(3) > a")) .click();
         wait.until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector("#loading-overlay")));
-        driver.findElement(By.cssSelector("#gridTemplateTable > tbody > tr > td:nth-child(7) > p > a")) .click();
-        driver.findElement(By.cssSelector("#confirmation-button-yes")) .click();
+        driver.findElement(By.cssSelector(sharePopupDeleteShareButton)) .click();
+        driver.findElement(By.cssSelector(yesButton)) .click();
         wait.until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector("#loading-overlay")));
-        driver.findElement(By.cssSelector("#message-button-ok")).click();
-        driver.findElement(By.cssSelector("#sharedLinkModal > div.modal-dialog > div > div > button > span:nth-child(1)")) .click();
+        driver.findElement(By.cssSelector(okButton)).click();
+        driver.findElement(By.cssSelector(sharePopupCloseButton)) .click();
     }
+    //This method will be merged with "checkShareWithUser" method
     private void checkShareFileWithUser(String download, String audit){
         WebDriverWait wait = new WebDriverWait(driver, 20);
-        driver.findElement(By.cssSelector("#videosContainer > div.side-bar-column > div > ul > li:nth-child(15) > a")).click();
+        driver.findElement(By.cssSelector(filtersShared)).click();
         wait.until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector("#loading-overlay")));
         driver.findElement(By.cssSelector("#videosContainer > div.col-xs-12.video-search-column > div > div.col-xs-3.search-container > div:nth-child(1) > div:nth-child(1) > div > div:nth-child(2) > div > ul > li:nth-child(3) > a")).click();
         driver.findElement(By.cssSelector(".chosen-single > span:nth-child(1)")) .click();
@@ -231,9 +294,10 @@ import java.util.concurrent.TimeUnit;
         driver.findElement(By.cssSelector("#message-button-ok")).click();
         driver.findElement(By.cssSelector("#sharedLinkModal > div.modal-dialog > div > div > button > span:nth-child(1)")) .click();
         }
+    //This method will be merged with "checkShareWithUser" method
     private void checkShareRedactionWithUser(String download, String audit) {
         WebDriverWait wait = new WebDriverWait(driver, 20);
-        driver.findElement(By.cssSelector("#videosContainer > div.side-bar-column > div > ul > li:nth-child(15) > a")).click();
+        driver.findElement(By.cssSelector(filtersShared)).click();
         wait.until(ExpectedConditions.invisibilityOfElementLocated(By.cssSelector("#loading-overlay")));
         driver.findElement(By.cssSelector(".chosen-single > span:nth-child(1)")) .click();
         driver.findElement(By.cssSelector("li.active-result:nth-child(2)")) .click();
@@ -1180,8 +1244,8 @@ import java.util.concurrent.TimeUnit;
     //===============================================================================================================================================================================================================================
     //===============================================================================================================================================================================================================================
 
-    @After
-    public void tearDown() {
-        driver.quit();
-    }
+    //@After
+    //public void tearDown() {
+        //driver.quit();
+    //}
 }
