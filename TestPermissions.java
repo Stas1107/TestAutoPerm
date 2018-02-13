@@ -26,8 +26,8 @@ import java.util.concurrent.TimeUnit;
     private String rolesPopupSaveButton = "#editRoleModal > div.modal-dialog > div > div.modal-footer > button.btn.btn-primary.btn-lg";
 
     //Filer List selectors
-    private String filtersFileName = "#videosContainer > div.side-bar-column > div > ul > li:nth-child(14) > a";
-    private String filtersShared = "#videosContainer > div.side-bar-column > div > ul > li:nth-child(16) > a";
+    private String filtersFileName = "#videosContainer > div.side-bar-column > div > ul > li:nth-child(15) > a";
+    private String filtersShared = "#videosContainer > div.side-bar-column > div > ul > li:nth-child(17) > a";
     private String filtersName = "#rolesContainer > div.side-bar-column > div > ul > li:nth-child(2) > a";
 
     //Search Pannel selectors
